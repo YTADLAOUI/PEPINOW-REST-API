@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
 use Illuminate\Http\Request;
 
 class CategorieController extends Controller
@@ -13,7 +14,9 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        //
+        $categories= Categorie::all();
+        return $categories->toJson();
+         
     }
 
     /**
@@ -23,7 +26,7 @@ class CategorieController extends Controller
      */
     public function create()
     {
-        //
+     return 'page de product';
     }
 
     /**
@@ -34,7 +37,12 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $request->validate([
+            'titre'=>'required'
+        ]);
+        $data= $request->all();
+        Categorie::create($data);
+        return 'data add sucuss ';
     }
 
     /**
@@ -45,7 +53,8 @@ class CategorieController extends Controller
      */
     public function show($id)
     {
-        //
+        $cat= Categorie::find($id);
+        return $cat->toJson();
     }
 
     /**
@@ -56,7 +65,8 @@ class CategorieController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cat= Categorie::find($id);
+        return $cat->toJson();
     }
 
     /**
@@ -68,7 +78,10 @@ class CategorieController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $cat= Categorie::find($id);
+        $data=$request->all();
+        $cat->update($data);
+        return 'categorie update to'. $cat;
     }
 
     /**
@@ -79,6 +92,7 @@ class CategorieController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cat= Categorie::destroy($id);
+        return 'delete categorie id:'.$id;
     }
 }

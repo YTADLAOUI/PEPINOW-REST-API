@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plant;
 use Illuminate\Http\Request;
 
 class PlantController extends Controller
@@ -13,7 +14,8 @@ class PlantController extends Controller
      */
     public function index()
     {
-        //
+        $plant= Plant::all();
+        return $plant->toJson();
     }
 
     /**
@@ -23,7 +25,7 @@ class PlantController extends Controller
      */
     public function create()
     {
-        //
+        return 'page de product';
     }
 
     /**
@@ -34,7 +36,15 @@ class PlantController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+            'prix'=>'required',
+            'categorie_id'=>'required',
+            'user_id'=>'required'
+        ]);
+        $data= $request->all();
+        Plant::create($data);
+        return 'data add sucuss ';
     }
 
     /**
