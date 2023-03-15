@@ -36,4 +36,11 @@
         {
             return [];
         }
+        public function roles() {
+            return $this->belongsTo(Role::class);
+        }
+        public function plant(){
+            return $this->hasMany(Plant::class);
+        }
+
     }

@@ -19,6 +19,12 @@ Route::post('register', [UserController::class,'register']);
 Route::post('login', [UserController::class,'authenticate']);
 Route::get('open', 'DataController@open');
 
+Route::group(['middleware' => ['jwt.admin.verfiy']], function() {
+
+});
+Route::group(['middleware' => ['jwt.user.verfiy']], function() {
+});
+
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('user', 'UserController@getAuthenticatedUser');
     Route::get('closed', 'DataController@closed');
