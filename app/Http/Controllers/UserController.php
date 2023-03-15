@@ -41,6 +41,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'role_id'=>3
             ]);
         // $user = User::create([
         //     'name' => $request->get('name'),
