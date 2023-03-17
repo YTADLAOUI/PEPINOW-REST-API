@@ -78,4 +78,22 @@ class UserController extends Controller
 
                 return response()->json(compact('user'));
         }
+
+
+        /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+        public function update(Request $request, $id)
+        {
+            $user=User::find($id);
+            $role_id = $request->input('role_id');
+            $user->role_id = $role_id;
+            $user->save();
+            return response()->json($user);
+        }
+
 }

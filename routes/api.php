@@ -22,15 +22,17 @@ Route::post('/login', [UserController::class,'authenticate']);
 // Route::get('open', 'DataController@open');
 // Route::apiResource('/plant', PlantController::class);
 Route::apiResource('/categorie', CategorieController::class);
-Route::group(['middleware' => ['jwt.admin.verfiy']], function() {
-
+  Route::group(['/middleware' => ['jwt.admin.verfiy']], function() {
+  Route::put('/changeRole/{id}',[UserController::class,'update']);
 });
 Route::group(['middleware' => ['jwt.user.verfiy']], function() {
+  
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {
   Route::apiResource('/plant', PlantController::class);
+  
 });
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
