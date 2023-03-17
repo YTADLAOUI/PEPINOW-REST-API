@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Plant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+// use JWTAuth;
 
 class PlantController extends Controller
 {
@@ -40,11 +42,13 @@ class PlantController extends Controller
             'name'=>'required',
             'prix'=>'required',
             'categorie_id'=>'required',
-            'user_id'=>'required'
+            
         ]);
         $data= $request->all();
+        $user=Auth::user();
+        $data['user_id'] = $user->id;
         Plant::create($data);
-        return 'data add sucuss ';
+        return 'data add sucuss';
     }
 
     /**
@@ -55,7 +59,8 @@ class PlantController extends Controller
      */
     public function show($id)
     {
-        //
+        $plant= Plant::find($id);
+        return $plant->toJson();
     }
 
     /**
@@ -66,7 +71,8 @@ class PlantController extends Controller
      */
     public function edit($id)
     {
-        //
+        $plant= Plant::find($id);
+        return $plant->toJson();
     }
 
     /**
@@ -78,7 +84,17 @@ class PlantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // $request->validate([
+        //     'name'=>'required',
+        //     'prix'=>'required',
+        //     'categorie_id'=>'required', 
+        // ]);
+        $plant= Plant::find($id);
+        $data=$request->all();
+        $user=Auth::user();
+        $data['user_id'] = $user->id;
+        $plant->update($data);
+        return response()->json($plant);
     }
 
     /**
@@ -89,6 +105,7 @@ class PlantController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $plant= Plant::destroy($id);
+        return 'delete plant id:'.$id;
     }
 }

@@ -16,7 +16,6 @@ class CategorieController extends Controller
     {
         $categories= Categorie::all();
         return $categories->toJson();
-         
     }
 
     /**
@@ -42,7 +41,7 @@ class CategorieController extends Controller
         ]);
         $data= $request->all();
         Categorie::create($data);
-        return 'data add sucuss ';
+        return response()->json( $data);
     }
 
     /**
@@ -77,11 +76,12 @@ class CategorieController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {  
         $cat= Categorie::find($id);
         $data=$request->all();
         $cat->update($data);
-        return 'categorie update to'. $cat;
+        // $cat= Categorie::find($id);
+        return response()->json($cat);
     }
 
     /**
