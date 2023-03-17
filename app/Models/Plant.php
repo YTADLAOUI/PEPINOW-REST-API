@@ -10,9 +10,9 @@ class Plant extends Model
     use HasFactory;
     protected $fillable = ['name','prix','categorie_id','user_id'];
     public function categorie(){
-        return $this->belongsTo(Categorie::class);
+        return $this->belongsTo(Categorie::class,'categorie_id','id');
     }
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id','id');
     }
 }

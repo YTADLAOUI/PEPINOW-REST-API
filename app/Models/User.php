@@ -37,7 +37,7 @@
             return [];
         }
         public function roles() {
-            return $this->belongsTo(Role::class);
+            return $this->belongsTo(Role::class,'role_id','id');
         }
         public function plant(){
             return $this->hasMany(Plant::class);
