@@ -85,34 +85,34 @@ class UserController extends Controller
         public function update(Request $request, $id)
         {
             $user=User::find($id);
-            // $validator = Validator::make($request->all(), [
-            //     'role_id' => 'required|integer|in:1,2,3',
-            // ]);
+            $validator = Validator::make($request->all(), [
+                'role_id' => 'required|integer|in:1,2,3',
+            ]);
     
-            // if($validator->fails()){
-            //         return response()->json($validator->errors(), 400);
-            // }
+            if($validator->fails()){
+                    return response()->json($validator->errors(), 400);
+            }
             $role_id = $request->input('role_id');
             $user->role_id = $role_id;
             $user->save();
             return response()->json($user);
         }
-        // public function updateProfile(Request $request){
-        //     $user=Auth::user();
-        //     $validator = Validator::make($request->all(), [
-        //         'name' => 'required|string',
-        //         'email' => 'required|string|email|unique:users,email,'.$user->id,
-        //         'password' => 'nullable|string|min:6',
-        //     ]);
-        //     if($validator->fails()){
-        //         return response()->json($validator->errors(), 400);
-        // }
-        // $user->update([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => $request->password ? Hash::make($request->password) : $user->password]);
+        public function updateProfile(Request $request){
+            $user=Auth::user();
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string',
+                'email' => 'required|string|email|unique:users,email,'.$user->id,
+                'password' => 'nullable|string|min:6',
+            ]);
+            if($validator->fails()){
+                return response()->json($validator->errors(), 400);
+        }
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password ? Hash::make($request->password) : $user->password]);
 
-        // }
+        }
         public function logout(){
                 auth()->logout();
                 return response()->json([

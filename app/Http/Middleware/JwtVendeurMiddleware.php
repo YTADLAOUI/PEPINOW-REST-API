@@ -3,13 +3,14 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use JWTAuth;
 use Exception;
+use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
-class JwtMiddleware extends BaseMiddleware
-{
 
-    /**
+class JwtVendeurMiddleware extends BaseMiddleware
+{
+  /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -21,7 +22,7 @@ class JwtMiddleware extends BaseMiddleware
         try {
             $user = JWTAuth::parseToken()->authenticate();
             if($user->role_id==3){
-                return  response()->json(['status' => 'rirha']);
+                return  response()->json(['status' => 'Ask admin for permission']);
             }
         } catch (Exception $e) {
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
