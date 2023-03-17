@@ -19,20 +19,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [UserController::class,'register']);
 Route::post('/login', [UserController::class,'authenticate']);
-// Route::get('open', 'DataController@open');
-// Route::apiResource('/plant', PlantController::class);
-Route::apiResource('/categorie', CategorieController::class);
   Route::group(['/middleware' => ['jwt.admin.verfiy']], function() {
   Route::put('/changeRole/{id}',[UserController::class,'update']);
+  Route::apiResource('/categorie', CategorieController::class);
+
 });
 Route::group(['middleware' => ['jwt.user.verfiy']], function() {
-  
+  Route::apiResource('/plant', PlantController::class)->except(['index','show']);
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {
-  Route::apiResource('/plant', PlantController::class);
-  
+  Route::get('plant',[PlantController::class,'index']);
+  Route::get('/plant/{plant}',[PlantController::class,'show']);
+  Route::post('logout', [UserController::class,'logout']);
+
 });
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+

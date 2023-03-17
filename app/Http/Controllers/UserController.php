@@ -43,12 +43,6 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
                 'role_id'=>3
             ]);
-        // $user = User::create([
-        //     'name' => $request->get('name'),
-        //     'email' => $request->get('email'),
-        //     'password' => Hash::make($request->get('password')),
-        // ]);
-
         $token = JWTAuth::fromUser($user);
 
         return response()->json(compact('user','token'),201);
@@ -95,5 +89,11 @@ class UserController extends Controller
             $user->save();
             return response()->json($user);
         }
+        public function logout(){
+                auth()->logout();
+                return response()->json([
+                    'message'=>'logOut success'
+                ]);
+            }
 
 }
