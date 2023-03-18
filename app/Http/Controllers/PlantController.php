@@ -16,8 +16,16 @@ class PlantController extends Controller
      */
     public function index()
     {
-        $plant= Plant::all();
-        return $plant->toJson();
+        // $plant= Plant::all();
+        $plants = Plant::with(['categorie', 'users'])->get();
+
+        foreach ($plants as $plant) {
+            $plant->categorie_id = $plant->categorie->titre;
+            $plant->user_id = $plant->users->name;
+            $plants->makeHidden(['categorie', 'users']);
+        }
+        
+        return $plants->toJson();
     }
 
     /**

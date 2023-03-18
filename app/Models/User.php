@@ -44,7 +44,7 @@ use Illuminate\Notifications\Notifiable;
         }
         public function plant()
         {
-            return $this->hasMany(Plant::class);
+            return $this->hasMany(Plant::class,'user_id','id');
         }
 
     }
