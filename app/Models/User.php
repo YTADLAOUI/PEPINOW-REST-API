@@ -2,7 +2,9 @@
 
     namespace App\Models;
 
-    use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
     use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -36,10 +38,12 @@
         {
             return [];
         }
-        public function roles() {
+        public function roles()
+         {
             return $this->belongsTo(Role::class,'role_id','id');
         }
-        public function plant(){
+        public function plant()
+        {
             return $this->hasMany(Plant::class);
         }
 

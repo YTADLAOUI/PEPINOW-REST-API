@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 
@@ -21,7 +22,7 @@ class JwtAdminMiddleware extends BaseMiddleware
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
-            if($user->role_id !=1 ){
+            if(Auth::user()->role_id != 1){
                 return  response()->json(['status' => 'Ask admin for permission']);
             }
         } catch (Exception $e) {
