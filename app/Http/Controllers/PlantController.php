@@ -24,7 +24,6 @@ class PlantController extends Controller
             $plant->user_id = $plant->users->name;
             $plants->makeHidden(['categorie', 'users']);
         }
-        
         return $plants->toJson();
     }
 
@@ -46,17 +45,21 @@ class PlantController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
             'name'=>'required',
             'prix'=>'required',
             'categorie_id'=>'required',
+            'image'=>'required',
             
         ]);
+        
         $data= $request->all();
+        // return $data;
         $user=Auth::user();
         $data['user_id'] = $user->id;
         Plant::create($data);
-        return 'data add sucuss';
+        return $data;
     }
 
     /**

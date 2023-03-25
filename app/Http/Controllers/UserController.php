@@ -111,7 +111,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password ? Hash::make($request->password) : $user->password]);
-
+           return  response()->json(['update profile ok']);
         }
         public function logout(){
                 auth()->logout();
