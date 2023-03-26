@@ -54,6 +54,8 @@ class CategorieController extends Controller
     public function show($id)
     {
         $cat= Categorie::find($id);
+        if(!$cat){
+            return response()->json(['categorie_not_found'], 404);}
         return $cat->toJson();
     }
 
@@ -66,6 +68,8 @@ class CategorieController extends Controller
     public function edit($id)
     {
         $cat= Categorie::find($id);
+        if(!$cat){
+            return response()->json(['categorie_not_found'], 404);}
         return $cat->toJson();
     }
 
@@ -79,6 +83,9 @@ class CategorieController extends Controller
     public function update(Request $request, $id)
     {  
         $cat= Categorie::find($id);
+        if(!$cat){
+            return response()->json(['categorie_not_found'], 404);
+        }
         $data=$request->all();
         $cat->update($data);
         // $cat= Categorie::find($id);

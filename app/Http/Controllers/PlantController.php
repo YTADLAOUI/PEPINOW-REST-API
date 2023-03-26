@@ -70,7 +70,11 @@ class PlantController extends Controller
      */
     public function show($id)
     {
+        
         $plant= Plant::find($id);
+        if(!$plant){
+            return response()->json(['plant_not_found'], 404);
+        }
         return $plant->toJson();
     }
 
@@ -101,6 +105,9 @@ class PlantController extends Controller
         //     'categorie_id'=>'required', 
         // ]);
         $plant= Plant::find($id);
+        if(!$plant){
+            return response()->json(['plant_not_found'], 404);
+        }
         $data=$request->all();
         $user=Auth::user();
         $data['user_id'] = $user->id;
