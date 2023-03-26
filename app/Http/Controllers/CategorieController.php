@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Validator;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,9 +37,13 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
-         $request->validate([
-            'titre'=>'required'
-        ]);
+    $validator = Validator::make($request->all(), [
+        'titre'=>'required'
+    ]);
+    
+    if($validator->fails()) {
+        return response()->json($validator->errors(), 400);
+    }
         $data= $request->all();
         Categorie::create($data);
         return response()->json( $data);
@@ -82,6 +86,13 @@ class CategorieController extends Controller
      */
     public function update(Request $request, $id)
     {  
+        $validator = Validator::make($request->all(), [
+            'titre'=>'required'
+        ]);
+        
+        if($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
         $cat= Categorie::find($id);
         if(!$cat){
             return response()->json(['categorie_not_found'], 404);
@@ -101,6 +112,8 @@ class CategorieController extends Controller
     public function destroy($id)
     {
         $cat= Categorie::destroy($id);
+        if(!$cat){
+            return response()->json(['categorie_not_found'], 404);}
         return 'delete categorie id:'.$id;
     }
 }

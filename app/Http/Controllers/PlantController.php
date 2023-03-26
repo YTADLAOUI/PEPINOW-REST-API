@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Plant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 // use JWTAuth;
 
@@ -46,13 +47,16 @@ class PlantController extends Controller
     public function store(Request $request)
     {
         
-        $request->validate([
-            'name'=>'required',
-            'prix'=>'required',
-            'categorie_id'=>'required',
-            'image'=>'required',
-            
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'prix' => 'required',
+            'categorie_id' => 'required',
+            'image' => 'required',
         ]);
+        
+        if($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
         
         $data= $request->all();
         // return $data;
@@ -99,11 +103,16 @@ class PlantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $request->validate([
-        //     'name'=>'required',
-        //     'prix'=>'required',
-        //     'categorie_id'=>'required', 
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'prix' => 'required',
+            'categorie_id' => 'required',
+            'image' => 'required',
+        ]);
+        
+        if($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
         $plant= Plant::find($id);
         if(!$plant){
             return response()->json(['plant_not_found'], 404);
@@ -124,6 +133,9 @@ class PlantController extends Controller
     public function destroy($id)
     {
         $plant= Plant::destroy($id);
+        if(!$plant){
+            return response()->json(['plant_not_found'], 404);
+        }
         return 'delete plant id:'.$id;
     }
 }
